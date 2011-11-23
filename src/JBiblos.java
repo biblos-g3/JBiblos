@@ -15,8 +15,6 @@ import java.util.logging.Logger;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 /**
  *
  * @author nanohp
@@ -26,16 +24,16 @@ public class JBiblos {
     /**
      * @param args the command line arguments
      */
-public static void main(String[] args) {
+    public static void main(String[] args) {
 
         // Inicialización del modelo
         Biblioteca biblioteca = new Biblioteca();
 
         // Inicialización de la vista
-        IVista vista = (seleccionTipoVista() == 'T')
-                ? new VistaTexto(Inicializador.inicializaMenu())
-                : new VistaGrafica(Inicializador.inicializaMenu());
-
+        /*IVista vista = (seleccionTipoVista() == 'T')
+        ? new VistaTexto(Inicializador.inicializaMenu())
+        : new VistaGrafica(Inicializador.inicializaMenu());*/
+        IVista vista = new VistaGrafica(Inicializador.inicializaMenu());
 
 
         // Inicialización del controlador
@@ -47,7 +45,7 @@ public static void main(String[] args) {
         vista.setModelo(biblioteca);
 
         // Ponemos en marcha la vista
-        vista.login();
+        vista.arranca();
 
     }
 

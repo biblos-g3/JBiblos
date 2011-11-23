@@ -16,7 +16,7 @@ import java.util.Observable;
  */
 public interface IVista {
 
-    public void arranca(Usuario usuario);
+    public void arranca();
 
     public void setControlador(Controlador controlador);
 
@@ -26,6 +26,6 @@ public interface IVista {
 
     public void mostrarMensaje(String mensaje);
     
-    public Login login();
+    public void gestionarEvento(Evento evento);
     
 }

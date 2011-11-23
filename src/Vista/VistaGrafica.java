@@ -5,6 +5,7 @@
 package Vista;
 
 import Controlador.Controlador;
+import Controlador.Evento;
 import Controlador.TipoEvento;
 import Modelo.Login;
 import Modelo.MenuData;
@@ -14,9 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -28,42 +31,34 @@ import javax.swing.JWindow;
  */
 public class VistaGrafica implements IVista {
 
-    private VistaMenuGrafico vistaMenu;
+    private int estado;
     private Controlador controlador;
+    private VistaGLogin vGLogin;
+    private VistaGPrincipal vGPrincipal;
+    private VistaGCGeneral vGCGeneral;
     private Observable modelo;
-    private JFrame f;
-    private JMenuBar barraMenu;
-    private MenuData menu;
 
     public VistaGrafica(MenuData menu) {
-        this.menu = menu;
 
-        f = new JFrame("JBiblos");
-
-
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        vGCGeneral = new VistaGCGeneral();
 
     }
 
     @Override
-    public void arranca(Usuario usuario) {
-        this.vistaMenu = new VistaMenuGrafico(menu);
-        vistaMenu.setControlador(controlador);
-        vistaMenu.setObservable(modelo);
+    public void arranca() {
+        vGLogin = new VistaGLogin(controlador);
+        vGLogin.setVisible(true);
+    }
 
-        vistaMenu.mostrarMenu(f);
-
-        f.add(new JTextField("Bienvenido " + usuario.getNombre() + ", admin?" + usuario.isAdministrador()));
-        String tipoUsuario = usuario.isAdministrador() ? " (Administrador)" : " (Lector)";
-        f.setTitle("JBiblos - " + usuario.getNombre() + tipoUsuario);
-
-        f.setSize(400, 200);
-        f.setVisible(true);
+    public void operacion(Usuario usuario) {
+        vGPrincipal = new VistaGPrincipal(controlador, usuario);
+        vGPrincipal.setVisible(true);
     }
 
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+
     }
 
     @Override
@@ -83,8 +78,6 @@ public class VistaGrafica implements IVista {
         panel1.add(new JTextField("etiqueta:"));
         panel2.add(new JButton("Aceptar"));
         FlowLayout flVentana = new FlowLayout();
-        //flVentana.
-
 
         ventana.setLayout(flVentana);
         ventana.add(panel1);
@@ -102,57 +95,32 @@ public class VistaGrafica implements IVista {
     }
 
     @Override
-    public Login login() {
-        String usuario;
-        String clave;
-        final Login login = new Login("1", "clave1");
+    public void gestionarEvento(Evento evento) {
+        Object info = evento.getInfo();
 
-        final JFrame ventana = new JFrame("JBiblos - Login");
-        JPanel panel1 = new JPanel();
-        JPanel panel2 = new JPanel();
-        JPanel panel3 = new JPanel();
-        panel1.setLayout(new FlowLayout());
-        panel2.setLayout(new FlowLayout());
-        panel3.setLayout(new FlowLayout());
+        switch (evento.getTipoEvento()) {
 
-        panel1.add(new JLabel("Usuario:"));
-        final JTextField tFUsuario = new JTextField();
-        tFUsuario.setColumns(10);
-        panel1.add(tFUsuario);
-
-        panel2.add(new JLabel("Clave:"));
-        final JPasswordField tFClave = new JPasswordField();
-        tFClave.setColumns(10);
-        panel2.add(tFClave);
-
-        final JButtonPersonalizado bAceptar = new JButtonPersonalizado("Aceptar");
-        bAceptar.setPaquete(login);
-        panel3.add(bAceptar);
-
-        bAceptar.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                login.setNombre(tFUsuario.getText());
-                login.setClave(tFClave.getText());
-                ventana.setVisible(false);
-                controlador.actionPerformed(ae);
-                controlador.actionPerformed(new ActionEvent(bAceptar, 1, TipoEvento.LOGIN.getTipoEvento()));
-                //arranca();
-            }
-        });
-        FlowLayout flVentana = new FlowLayout();
-        //flVentana.
-
-
-        ventana.setLayout(flVentana);
-        ventana.add(panel1);
-        ventana.add(panel2);
-        ventana.add(panel3);
-
-        ventana.setBounds(50, 50, 200, 200);
-        //ventana.pack();
-        ventana.setVisible(true);
-        return login;
+            case LOGIN_OK:
+                if (info.getClass().getName().startsWith("Modelo.Usuario")) {
+                    vGLogin.setVisible(false);
+                    //vGLogin = null;
+                    operacion((Usuario) info);
+                } else {
+                    assert false : info.getClass().getName() + " clase no valida";
+                }
+                break;
+            case LOGIN_FALLO:
+                JOptionPane.showMessageDialog(vGLogin,
+                        "Fallo en el usuario / clave.",
+                        "Error de acceso",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+            case CONSULTA_CATALOGO_GENERAL:
+                
+                
+                break;
+            default:
+                throw new AssertionError();
+        }
     }
 }

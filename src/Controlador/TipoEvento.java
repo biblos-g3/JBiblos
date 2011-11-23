@@ -12,6 +12,9 @@ public enum TipoEvento {
 
     SALIR("Salir"),
     LOGIN("Login"),
+    LOGIN_OK("Login OK"),
+    LOGIN_FALLO("Login Fallo"),
+    ERROR("Mensaje de Error"),
     LOGOUT("Logout"),
     CONSULTA_CATALOGO_GENERAL("Consulta catálogo general");
     private String tipoEvento;

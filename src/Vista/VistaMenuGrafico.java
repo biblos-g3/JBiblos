@@ -19,8 +19,9 @@ import javax.swing.JMenuBar;
  *
  * @author nanohp
  */
-public class VistaMenuGrafico implements IVistaMenu, Observer{
-  private Controlador controlador;
+public class VistaMenuGrafico implements IVistaMenu, Observer {
+
+    private Controlador controlador;
     private MenuData menuData;
     private JFrame f;
     private JMenuBar barraMenu;
@@ -51,8 +52,9 @@ public class VistaMenuGrafico implements IVistaMenu, Observer{
         //System.err.println(destino.getClass().getName());
         if (destino.getClass().getName().equals("javax.swing.JFrame")) {
             ((JFrame) destino).setJMenuBar(barraMenu);
+        } else {
+            assert false : "VistaMenuGrafico.mostrarMenu() -> Destino invalido";
         }
-        else assert false:"VistaMenuGrafico.mostrarMenu() -> Destino invalido";
     }
 
     public void setObservable(Observable observable) {
@@ -66,16 +68,17 @@ public class VistaMenuGrafico implements IVistaMenu, Observer{
     @Override
     public void update(Observable o, Object o1) {
         System.out.println("xxx:" + o + ", o2:" + o1);
-        JMenuItemPersonalizado JMItemPersonal = null;
+        JMenuItemPersonalizado jMItemPersonal = null;
         if (o instanceof Biblioteca) {
             for (MenuItemData mItem : menuData.getMenuItems().values()) {
                 if (!mItem.isVisible()) {
                     mItem.isVisible(true);
-                    JMItemPersonal = new JMenuItemPersonalizado(mItem);
-                    menuPersonalizado.add(JMItemPersonal);
-                    JMItemPersonal.addActionListener(controlador);
+                    jMItemPersonal = new JMenuItemPersonalizado(mItem);
+                    //menuPersonalizado.add(jMItemPersonal);
+                    System.out.println(jMItemPersonal.getText());
+                    jMItemPersonal.addActionListener(controlador);
                 }
             }
         }
-    }   
+    }
 }

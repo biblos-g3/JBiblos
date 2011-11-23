@@ -65,15 +65,21 @@ public class Biblioteca extends Observable {
      * 
      */
     public Usuario login(String dni, String clave) throws Exception {
+        
+        
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
             //List usuarios = BD.executeHQLQuery("from Usuario u where u.dni=" + dni + " and u.clave='" + clave + "'");
             usuarioActivo = (Usuario) session.load(Usuario.class, Integer.parseInt(dni));
-            System.out.println(usuarioActivo);
-            if (!usuarioActivo.getClave().equals(clave)) {
+            System.out.println("BD:"+usuarioActivo.getClave()+", clave:"+clave);
+            if (usuarioActivo.getClave().equals(clave) == false) {
+                System.out.println("Fallo en clave");
                 throw new Exception("Usuario " + dni + " clave no válido");
             }
+            session.getTransaction().commit();
+            session.close();
             setChanged();
             notifyObservers();
 
@@ -119,4 +125,10 @@ public class Biblioteca extends Observable {
         System.out.println(count + " rows were retrieved");
         return usuario;
     }
+
+    public Catalogo getAlberga() {
+        return alberga;
+    }
+    
+    
 }
