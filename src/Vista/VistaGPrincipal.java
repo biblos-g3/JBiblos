@@ -25,6 +25,7 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     /** Creates new form VistaGPrincipal */
     public VistaGPrincipal() {
         initComponents();
+        
     }
 
     /*
@@ -35,6 +36,7 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     private JDesktopPane jdpDesktop;
     private VistaGPerfilUsuario vGPerfilUsuario;
     private VistaGCGeneral vGCGeneral;
+    private VAcercaDe vAcercaDe;
 
     public VistaGPrincipal(Controlador controlador, Usuario usuario) {
         this.controlador = controlador;
@@ -50,7 +52,10 @@ public class VistaGPrincipal extends javax.swing.JFrame {
         jdpDesktop.add(vGPerfilUsuario);
         
         vGCGeneral = new VistaGCGeneral();
-        jdpDesktop.add(vGCGeneral);        
+        jdpDesktop.add(vGCGeneral);
+        
+        vAcercaDe = new VAcercaDe();
+        jdpDesktop.add(vAcercaDe);
 
     }
 
@@ -93,6 +98,8 @@ public class VistaGPrincipal extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItemAcercaDe = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -169,6 +176,18 @@ public class VistaGPrincipal extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenuAdministrador);
 
+        jMenu3.setText("Ayuda");
+
+        jMenuItemAcercaDe.setText("A cerca de");
+        jMenuItemAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAcercaDeActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemAcercaDe);
+
+        jMenuBar2.add(jMenu3);
+
         setJMenuBar(jMenuBar2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,15 +198,11 @@ public class VistaGPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 405, Short.MAX_VALUE)
+            .addGap(0, 407, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
-        controlador.gestionarEvento(new Evento(TipoEvento.SALIR));
-    }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jMenuItemMostrarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMostrarPerfilActionPerformed
         System.out.println(usuario);
@@ -199,6 +214,14 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     private void jMenuItemLectorCGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLectorCGeneralActionPerformed
         controlador.gestionarEvento(new Evento(TipoEvento.CONSULTA_CATALOGO_GENERAL));
     }//GEN-LAST:event_jMenuItemLectorCGeneralActionPerformed
+
+    private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
+
+        controlador.gestionarEvento(new Evento(TipoEvento.SALIR));     }//GEN-LAST:event_jMenuItemSalirActionPerformed
+
+    private void jMenuItemAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAcercaDeActionPerformed
+        vAcercaDe.setVisible(true);
+    }//GEN-LAST:event_jMenuItemAcercaDeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,6 +261,7 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenuAdministrador;
@@ -249,6 +273,7 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItemAcercaDe;
     private javax.swing.JMenuItem jMenuItemLectorCConcreta;
     private javax.swing.JMenuItem jMenuItemLectorCGeneral;
     private javax.swing.JMenuItem jMenuItemMostrarPerfil;
