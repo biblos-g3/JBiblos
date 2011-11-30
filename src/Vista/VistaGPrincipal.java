@@ -65,7 +65,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         this.padre = padre;
         this.controlador = controlador;
         this.usuario = usuario;
-        controlador.procesarEvento(new Evento(TipoEvento.OBTENER_CAT_DEWEY,null,this));
+        controlador.procesarEvento(new Evento(TipoEvento.OBTENER_CAT_DEWEY, null, this));
 
         initComponents();
 
@@ -73,13 +73,14 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     }
 
     private void inicializaComponentesPropios() {
-        
+
         String tipoUsuario = usuario.isAdministrador() ? " (Administrador)" : " (Lector)";
         setTitle("JBiblos - " + usuario.getNombre() + tipoUsuario);
         jdpDesktop = new JDesktopPane();
         setContentPane(jdpDesktop);
 
-        vGPerfilUsuario = new VistaGPerfilUsuario(usuario);
+        vGPerfilUsuario = new VistaGPerfilUsuario();
+
         jdpDesktop.add(vGPerfilUsuario);
 
         vGCGeneral = new VistaGCGeneral(listaCategoriasDewey, jdpDesktop);
@@ -135,9 +136,9 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         jMenuItemLectorCConcreta = new javax.swing.JMenuItem();
         jMenuAdministrador = new javax.swing.JMenu();
         jMenuUsuarios = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItemUsuariosAlta = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItemUsuariosModificar = new javax.swing.JMenuItem();
         jMenuCatalogo = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -218,14 +219,24 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         jMenuUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/User_group_20.png"))); // NOI18N
         jMenuUsuarios.setText("Usuarios");
 
-        jMenuItem3.setText("Alta");
-        jMenuUsuarios.add(jMenuItem3);
+        jMenuItemUsuariosAlta.setText("Alta");
+        jMenuItemUsuariosAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosAltaActionPerformed(evt);
+            }
+        });
+        jMenuUsuarios.add(jMenuItemUsuariosAlta);
 
         jMenuItem4.setText("Baja");
         jMenuUsuarios.add(jMenuItem4);
 
-        jMenuItem5.setText("Modificar");
-        jMenuUsuarios.add(jMenuItem5);
+        jMenuItemUsuariosModificar.setText("Modificar");
+        jMenuItemUsuariosModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosModificarActionPerformed(evt);
+            }
+        });
+        jMenuUsuarios.add(jMenuItemUsuariosModificar);
 
         jMenuAdministrador.add(jMenuUsuarios);
 
@@ -275,10 +286,8 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemMostrarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMostrarPerfilActionPerformed
-        System.out.println(usuario);
-        vGPerfilUsuario = new VistaGPerfilUsuario(usuario);
-        jdpDesktop.add(vGPerfilUsuario);
-        vGPerfilUsuario.setEditable(false);
+        vGPerfilUsuario.setModo("mostrar");
+        vGPerfilUsuario.fijarModelo(usuario);
         vGPerfilUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuItemMostrarPerfilActionPerformed
 
@@ -302,6 +311,17 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
         procesarEvento(new Evento(TipoEvento.SALIR));
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
+
+    private void jMenuItemUsuariosAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosAltaActionPerformed
+        vGPerfilUsuario.setModo("alta");
+        vGPerfilUsuario.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosAltaActionPerformed
+
+    private void jMenuItemUsuariosModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosModificarActionPerformed
+        vGPerfilUsuario.fijarModelo(usuario);
+        vGPerfilUsuario.setModo("modificar");
+        vGPerfilUsuario.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,9 +367,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBarPrincipal;
     private javax.swing.JMenu jMenuCatalogo;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
@@ -359,6 +377,8 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemMostrarPerfil;
     private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenuItem jMenuItemUsuariosAlta;
+    private javax.swing.JMenuItem jMenuItemUsuariosModificar;
     private javax.swing.JMenu jMenuLector;
     private javax.swing.JMenu jMenuPrincipal;
     private javax.swing.JMenu jMenuUsuarios;
@@ -403,9 +423,9 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
                 break;
 
             case OBTENER_CAT_DEWEY:
-                this.listaCategoriasDewey = (List<Dewey>)evento.getInfo();
+                this.listaCategoriasDewey = (List<Dewey>) evento.getInfo();
                 break;
-                
+
             case CONSULTA_CATALOGO_GENERAL:
                 System.out.println("CONSULTA_CATALOGO_GENERAL");
                 try {

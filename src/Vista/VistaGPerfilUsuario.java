@@ -29,13 +29,19 @@ public class VistaGPerfilUsuario extends javax.swing.JInternalFrame implements G
     /*
      * AÑADIDO PARA JBIBLOS
      */
-    public VistaGPerfilUsuario(Usuario usuario) {
-        this.usuario = usuario;
-        initComponents();
-        fijarModelo(usuario);
-
-
-
+    public void setModo(String modo) {
+        if (modo.equals("mostrar")) {
+            this.setEditable(false);
+        } else if (modo.equals("alta")) {
+            limpiarModelo();
+            setEditable(true);
+            setTitle("Alta de usuario");
+            this.jBAceptar.setText("Alta");
+        } else if (modo.equals("modificar")) {
+            setEditable(true);
+            setTitle("Modificación de usuario");
+            this.jTextFieldDNI.setEditable(fa2lse);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -67,6 +73,7 @@ public class VistaGPerfilUsuario extends javax.swing.JInternalFrame implements G
         jCheckBoxAdministrador = new javax.swing.JCheckBox();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
@@ -298,6 +305,16 @@ public class VistaGPerfilUsuario extends javax.swing.JInternalFrame implements G
 
     @Override
     public void limpiarModelo() {
+        jTextFieldNombre.setText("");
+        jTextFieldApellido1.setText("");
+        jTextFieldApellido2.setText("");
+
+        jTextFieldDNI.setText("");
+        jTextFieldClave.setText("");
+        jTextFieldDireccion.setText("");
+        jTextFieldTelefono.setText("");
+        jTextFieldEmail.setText("");
+        jCheckBoxAdministrador.setSelected(false);
         usuario = null;
     }
 
