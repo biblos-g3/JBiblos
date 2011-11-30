@@ -137,7 +137,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         jMenuAdministrador = new javax.swing.JMenu();
         jMenuUsuarios = new javax.swing.JMenu();
         jMenuItemUsuariosAlta = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItemUsuariosBaja = new javax.swing.JMenuItem();
         jMenuItemUsuariosModificar = new javax.swing.JMenuItem();
         jMenuCatalogo = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -227,8 +227,13 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         });
         jMenuUsuarios.add(jMenuItemUsuariosAlta);
 
-        jMenuItem4.setText("Baja");
-        jMenuUsuarios.add(jMenuItem4);
+        jMenuItemUsuariosBaja.setText("Baja");
+        jMenuItemUsuariosBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosBajaActionPerformed(evt);
+            }
+        });
+        jMenuUsuarios.add(jMenuItemUsuariosBaja);
 
         jMenuItemUsuariosModificar.setText("Modificar");
         jMenuItemUsuariosModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -323,6 +328,12 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         vGPerfilUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuItemUsuariosModificarActionPerformed
 
+    private void jMenuItemUsuariosBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosBajaActionPerformed
+        vGPerfilUsuario.fijarModelo(usuario);
+        vGPerfilUsuario.setModo("baja");
+        vGPerfilUsuario.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosBajaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -367,7 +378,6 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBarPrincipal;
     private javax.swing.JMenu jMenuCatalogo;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
@@ -378,6 +388,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private javax.swing.JMenuItem jMenuItemMostrarPerfil;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenuItem jMenuItemUsuariosAlta;
+    private javax.swing.JMenuItem jMenuItemUsuariosBaja;
     private javax.swing.JMenuItem jMenuItemUsuariosModificar;
     private javax.swing.JMenu jMenuLector;
     private javax.swing.JMenu jMenuPrincipal;
