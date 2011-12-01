@@ -140,9 +140,9 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemUsuariosModificar = new javax.swing.JMenuItem();
         jMenuCatalogo = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItemAltaTitulo = new javax.swing.JMenuItem();
+        jMenuItemBajaTitulo = new javax.swing.JMenuItem();
+        jMenuItemModificacionTitulo = new javax.swing.JMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
         jMenuItemAcercaDe = new javax.swing.JMenuItem();
 
@@ -242,15 +242,35 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
 
         jMenuCatalogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catalogo_20.png"))); // NOI18N
         jMenuCatalogo.setText("Catálogo");
+        jMenuCatalogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCatalogoActionPerformed(evt);
+            }
+        });
 
-        jMenuItem6.setText("Alta");
-        jMenuCatalogo.add(jMenuItem6);
+        jMenuItemAltaTitulo.setText("Alta");
+        jMenuItemAltaTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAltaTituloActionPerformed(evt);
+            }
+        });
+        jMenuCatalogo.add(jMenuItemAltaTitulo);
 
-        jMenuItem7.setText("Baja");
-        jMenuCatalogo.add(jMenuItem7);
+        jMenuItemBajaTitulo.setText("Baja");
+        jMenuItemBajaTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemBajaTituloActionPerformed(evt);
+            }
+        });
+        jMenuCatalogo.add(jMenuItemBajaTitulo);
 
-        jMenuItem8.setText("Modificación");
-        jMenuCatalogo.add(jMenuItem8);
+        jMenuItemModificacionTitulo.setText("Modificación");
+        jMenuItemModificacionTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemModificacionTituloActionPerformed(evt);
+            }
+        });
+        jMenuCatalogo.add(jMenuItemModificacionTitulo);
 
         jMenuAdministrador.add(jMenuCatalogo);
 
@@ -323,6 +343,24 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         vGPerfilUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuItemUsuariosModificarActionPerformed
 
+private void jMenuCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCatalogoActionPerformed
+}//GEN-LAST:event_jMenuCatalogoActionPerformed
+
+private void jMenuItemAltaTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAltaTituloActionPerformed
+    vGFichaTitulo.setModo("alta");
+    vGFichaTitulo.setVisible(true);
+}//GEN-LAST:event_jMenuItemAltaTituloActionPerformed
+
+private void jMenuItemBajaTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBajaTituloActionPerformed
+    //vGFichaTitulo.setModo("baja");
+    controlador.procesarEvento(new Evento(TipoEvento.CONSULTA_CATALOGO_GENERAL, null, this));
+}//GEN-LAST:event_jMenuItemBajaTituloActionPerformed
+
+private void jMenuItemModificacionTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModificacionTituloActionPerformed
+    vGFichaTitulo.setModo("modificacion");
+    vGFichaTitulo.setVisible(true);
+}//GEN-LAST:event_jMenuItemModificacionTituloActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -368,13 +406,13 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private javax.swing.JMenuBar jMenuBarPrincipal;
     private javax.swing.JMenu jMenuCatalogo;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItemAcercaDe;
+    private javax.swing.JMenuItem jMenuItemAltaTitulo;
+    private javax.swing.JMenuItem jMenuItemBajaTitulo;
     private javax.swing.JMenuItem jMenuItemLectorCConcreta;
     private javax.swing.JMenuItem jMenuItemLectorCGeneral;
     private javax.swing.JMenuItem jMenuItemLogout;
+    private javax.swing.JMenuItem jMenuItemModificacionTitulo;
     private javax.swing.JMenuItem jMenuItemMostrarPerfil;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenuItem jMenuItemUsuariosAlta;

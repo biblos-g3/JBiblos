@@ -39,6 +39,23 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
         inicializaComponentesPropios();
     }
 
+    public void setModo(String modo) {
+        if (modo.equals("mostrar")) {
+            setEditable(false);
+        } else if (modo.equals("alta")) {
+            limpiarModelo();
+            setEditable(true);
+            setTitle("Alta de titulo");
+            jButtonAceptar.setText("Alta");
+        } else if (modo.equals("modificar")) {
+            setEditable(false);
+            jTextAreaSinopsis.setEditable(true);
+            setTitle("Modificación de titulo");
+            
+            
+        }
+    }
+    
     private void inicializaComponentesPropios() {
         jComboBoxCodDewey.addItem("Seleccione categoría");
         for (Dewey dewey : listaCategoriasDewey) {
@@ -106,6 +123,7 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
         });
 
         jTextFieldCodTitulo.setColumns(3);
+        jTextFieldCodTitulo.setEditable(false);
 
         jButtonAceptar.setText("Aceptar");
         jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +135,7 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
         jLabel4.setText("Dewey");
 
         jTextFieldCodAutor.setColumns(3);
+        jTextFieldCodAutor.setEditable(false);
 
         jLabel5.setText("Sinopsis");
 
@@ -143,8 +162,8 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
                                     .addComponent(jLabel5))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldNombre)))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
@@ -175,18 +194,17 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addGap(51, 51, 51)))
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
                 .addComponent(jButtonAceptar)
                 .addContainerGap())
@@ -240,18 +258,27 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
     @Override
     public Object obtenerModelo() {
         return titulo;
+        
+        
+               
     }
 
     @Override
     public void limpiarModelo() {
         titulo = null;
+        jComboBoxCodDewey.setSelectedIndex(0);
+
+        //jTextFieldCodDewey.setText(new Short(titulo.getId().getDeweyCategoriaDewey()).toString());
+        jTextFieldCodAutor.setText("");
+        jTextFieldCodTitulo.setText("");
+        jTextFieldNombre.setText("");
+        jTextAreaSinopsis.setText("");
+        autoresTableModel = new AutoresTableModel();
+        jTableAutores.setModel(autoresTableModel);
     }
 
     @Override
     public void setEditable(boolean setEditable) {
-        //jTextFieldCodDewey.setEditable(setEditable);
-        jTextFieldCodAutor.setEditable(setEditable);
-        jTextFieldCodTitulo.setEditable(setEditable);
         jTextFieldNombre.setEditable(setEditable);
         jTextFieldNombre.setEditable(setEditable);
         jTextAreaSinopsis.setEditable(setEditable);
@@ -264,12 +291,17 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
         boolean editable = true;
         Object[] encabezado = {"Apellidos", "Nombre"};
         private Set<Autor> autores = new HashSet<Autor>();
+        
+         public AutoresTableModel() {
+            super();
+            setColumnIdentifiers(encabezado);
+        }
 
         public AutoresTableModel(Set<Autor> autores) {
 
             super();
             this.autores = autores;
-            Object data[][] = new Object[autores.size()][encabezado.length];
+            Object filas[][] = new Object[autores.size()][encabezado.length];
 
             int i = 0;
             String apellidos = "";
@@ -277,14 +309,14 @@ public class VistaGFichaTitulo extends javax.swing.JInternalFrame implements Ges
                 // Extraemos los apellidos
                 apellidos += autor.getApellido1Autor() == null ? "" : autor.getApellido1Autor();
                 apellidos += autor.getApellido2Autor() == null ? "" : " " + autor.getApellido2Autor();
-                data[i][0] = apellidos;
+                filas[i][0] = apellidos;
 
                 // Extraemos el nombre
-                data[i][1] = autor.getNombreAutor() == null ? "SIN AUTOR" : autor.getNombreAutor();
+                filas[i][1] = autor.getNombreAutor() == null ? "SIN AUTOR" : autor.getNombreAutor();
                 i++;
             }
 
-            setDataVector(data, encabezado);
+            setDataVector(filas, encabezado);
         }
 
         @Override
