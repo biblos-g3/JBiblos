@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
+import HBM.*;
 
 public class Biblioteca extends Observable {
 
@@ -35,11 +36,13 @@ public class Biblioteca extends Observable {
     }
      * 
      */
+    private Catalogo alberga;
+    //private ListaUsuarios contiene;
 
     public Biblioteca() {
+        alberga = new Catalogo();
     }
-    private Catalogo alberga;
-    private ListaUsuarios contiene;
+
 
     /*
      * 
@@ -65,15 +68,15 @@ public class Biblioteca extends Observable {
      * 
      */
     public Usuario login(String dni, String clave) throws Exception {
-        
-        
-        
+
+
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
             //List usuarios = BD.executeHQLQuery("from Usuario u where u.dni=" + dni + " and u.clave='" + clave + "'");
             usuarioActivo = (Usuario) session.load(Usuario.class, Integer.parseInt(dni));
-            System.out.println("BD:"+usuarioActivo.getClave()+", clave:"+clave);
+            System.out.println("BD:" + usuarioActivo.getClave() + ", clave:" + clave);
             if (usuarioActivo.getClave().equals(clave) == false) {
                 System.out.println("Fallo en clave");
                 throw new Exception("Usuario " + dni + " clave no válido");
@@ -127,8 +130,20 @@ public class Biblioteca extends Observable {
     }
 
     public Catalogo getAlberga() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        try {
+            //List usuarios = BD.executeHQLQuery("from Usuario u where u.dni=" + dni + " and u.clave='" + clave + "'");
+            alberga.init(session.createQuery("from Titulo").list());
+
+            session.getTransaction().commit();
+            //session.close();
+            setChanged();
+            notifyObservers();
+
+        } catch (ObjectNotFoundException ex) {
+            System.err.println("ObjectNotFoundException");
+        }
         return alberga;
     }
-    
-    
 }

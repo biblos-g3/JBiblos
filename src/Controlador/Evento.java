@@ -12,6 +12,7 @@ public class Evento {
 
     TipoEvento tipoEvento;
     Object info;
+    Observador destinoRespueta;
 
     public Evento(TipoEvento tipoEvento) {
         this.tipoEvento = tipoEvento;
@@ -22,6 +23,12 @@ public class Evento {
         this.info = info;
     }
 
+    public Evento(TipoEvento tipoEvento, Object info, Observador destinoRespueta) {
+        this.tipoEvento = tipoEvento;
+        this.info = info;
+        this.destinoRespueta = destinoRespueta;
+    }
+
     public Object getInfo() {
         return info;
     }
@@ -29,4 +36,9 @@ public class Evento {
     public TipoEvento getTipoEvento() {
         return tipoEvento;
     }
+
+    public Observador getDestinoRespueta() {
+        return destinoRespueta;
+    }
+    
 }

@@ -5,9 +5,6 @@
 package Vista;
 
 import Controlador.*;
-import Modelo.Biblioteca;
-import Modelo.Login;
-import Modelo.Usuario;
 import java.util.Observable;
 
 /**
@@ -18,14 +15,13 @@ public interface IVista {
 
     public void arranca();
 
-    public void setControlador(Controlador controlador);
+    public void setControlador(Controlador2 controlador);
 
     public void setModelo(Observable observable);
 
     public String getValor(String etiqueta);
 
     public void mostrarMensaje(String mensaje);
-    
-    public void gestionarEvento(Evento evento);
+
     
 }

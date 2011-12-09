@@ -4,15 +4,38 @@ import java.util.Date;
 
 public class Persona {
 
-    public Persona() {
-    }
-
     private int idPersona;
     private String nombre;
     private String apellido1;
     private String apellido2;
     private Date fNacimiento;
     private String nacionalidad;
+
+    public Persona() {
+        super();
+    }
+
+    /**
+     * 
+     * @param nombre
+     * @param apellido1
+     */
+    public Persona(String nombre, String apellido1) {
+        super();
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+    }
+
+    /**
+     * 
+     * @param nombre
+     * @param apellido1
+     * @param apellido2
+     */
+    public Persona(String nombre, String apellido1, String apellido2) {
+        this(nombre, apellido1);
+        this.apellido2 = apellido2;
+    }
 
     public int getIdPersona() {
         return idPersona;
@@ -60,27 +83,6 @@ public class Persona {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    /**
-     * 
-     * @param nombre
-     * @param apellido1
-     */
-    public Persona(String nombre, String apellido1) {
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-    }
-
-    /**
-     * 
-     * @param nombre
-     * @param apellido1
-     * @param apellido2
-     */
-    public Persona(String nombre, String apellido1, String apellido2) {
-        this(nombre, apellido1);
-        this.apellido2 = apellido2;
     }
 
     public int getId() {

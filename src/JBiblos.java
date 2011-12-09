@@ -1,14 +1,20 @@
 
-import Controlador.Controlador;
+import Controlador.Controlador2;
+import Controlador2.MiControlador;
 import Modelo.Biblioteca;
+import Modelo2.MiModelo;
 import Utils.Inicializador;
 import Vista.IVista;
 import Vista.VistaGrafica;
+import Vista2.Panel2Modelo;
+import Vista2.PanelDesdeModelo;
+import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /*
  * To change this template, choose Tools | Templates
@@ -19,11 +25,43 @@ import java.util.logging.Logger;
  * @author nanohp
  */
 public class JBiblos {
+    // Pruebas MVC2
+
+    MiControlador c2;
+    JFrame fVista2;
+    Panel2Modelo p21;
+    PanelDesdeModelo p22;
+    MiModelo m2;
+
+    /*
+    public JBiblos() {
+        c2 = new MiControlador();
+        fVista2 = new JFrame("Vista2");
+        fVista2.setLayout(new FlowLayout());
+        p21 = new Panel2Modelo(c2);
+        p22 = new PanelDesdeModelo(c2);
+        fVista2.add(p21);
+        fVista2.add(p22);
+        m2 = new MiModelo();
+
+        c2.addModel(m2);
+        c2.addView(p21);
+        c2.addView(p22);
+
+        fVista2.pack();
+        fVista2.setVisible(true);
+    }*/
 
     /**
      * @param args the command line arguments
      */
+  
     public static void main(String[] args) {
+
+        /*
+         * Arrancamos prueba MVC2
+         */
+        //JBiblos jBiblos = new JBiblos();
 
         // Inicialización del modelo
         Biblioteca biblioteca = new Biblioteca();
@@ -32,11 +70,11 @@ public class JBiblos {
         /*IVista vista = (seleccionTipoVista() == 'T')
         ? new VistaTexto(Inicializador.inicializaMenu())
         : new VistaGrafica(Inicializador.inicializaMenu());*/
-        IVista vista = new VistaGrafica(Inicializador.inicializaMenu());
+        IVista vista = new VistaGrafica();
 
 
         // Inicialización del controlador
-        Controlador controlador = new Controlador(vista, biblioteca);
+        Controlador2 controlador = new Controlador2(biblioteca);
 
         // Enlazamos la vista con el controlador
         vista.setControlador(controlador);

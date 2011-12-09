@@ -10,35 +10,51 @@
  */
 package Vista;
 
-import Controlador.Controlador;
+import Controlador.Controlador2;
 import Controlador.Evento;
+import Controlador.Observador;
 import Controlador.TipoEvento;
-import Modelo.Usuario;
+
+import java.beans.PropertyChangeEvent;
 import javax.swing.JDesktopPane;
+
+// Pruebas para el nuevo MVC
+import Vista2.*;
+import Controlador2.*;
+import Modelo.Catalogo;
+import Modelo.Usuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author nanohp
  */
-public class VistaGPrincipal extends javax.swing.JFrame {
+public class VistaGPrincipal extends javax.swing.JFrame implements Observador {
+
+    // Pruebas para el nuevo MVC
+    private Panel2Modelo panelPrueba;
+    MiControlador controladorV2;
 
     /** Creates new form VistaGPrincipal */
     public VistaGPrincipal() {
         initComponents();
-        
+
     }
 
     /*
      * AÑADIDO PARA JBIBLOS
      */
-    private Controlador controlador;
+    private Observador padre;
+    private Controlador2 controlador;
     private Usuario usuario;
     private JDesktopPane jdpDesktop;
     private VistaGPerfilUsuario vGPerfilUsuario;
     private VistaGCGeneral vGCGeneral;
     private VAcercaDe vAcercaDe;
 
-    public VistaGPrincipal(Controlador controlador, Usuario usuario) {
+    public VistaGPrincipal(Observador padre, Controlador2 controlador, Usuario usuario) {
+        this.padre = padre;
         this.controlador = controlador;
         this.usuario = usuario;
 
@@ -50,25 +66,28 @@ public class VistaGPrincipal extends javax.swing.JFrame {
 
         vGPerfilUsuario = new VistaGPerfilUsuario(usuario);
         jdpDesktop.add(vGPerfilUsuario);
-        
-        vGCGeneral = new VistaGCGeneral();
+
+        vGCGeneral = new VistaGCGeneral(jdpDesktop);
         jdpDesktop.add(vGCGeneral);
-        
+
         vAcercaDe = new VAcercaDe();
         jdpDesktop.add(vAcercaDe);
 
+    }
+
+    public void setControladorV2(MiControlador controladorV2) {
+        this.controladorV2 = controladorV2;
+        panelPrueba = new Panel2Modelo(controladorV2);
     }
 
     public VistaGCGeneral getvGCGeneral() {
         return vGCGeneral;
     }
 
-    public void setControlador(Controlador controlador) {
+    public void setControlador(Controlador2 controlador) {
         this.controlador = controlador;
     }
 
-    
-    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -100,6 +119,7 @@ public class VistaGPrincipal extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemAcercaDe = new javax.swing.JMenuItem();
+        jMenuItemPrueba = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -186,6 +206,14 @@ public class VistaGPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItemAcercaDe);
 
+        jMenuItemPrueba.setText("Prueba");
+        jMenuItemPrueba.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPruebaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemPrueba);
+
         jMenuBar2.add(jMenu3);
 
         setJMenuBar(jMenuBar2);
@@ -212,7 +240,7 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemMostrarPerfilActionPerformed
 
     private void jMenuItemLectorCGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLectorCGeneralActionPerformed
-        controlador.gestionarEvento(new Evento(TipoEvento.CONSULTA_CATALOGO_GENERAL));
+        controlador.gestionarEvento(new Evento(TipoEvento.CONSULTA_CATALOGO_GENERAL, null, this));
     }//GEN-LAST:event_jMenuItemLectorCGeneralActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
@@ -222,6 +250,10 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     private void jMenuItemAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAcercaDeActionPerformed
         vAcercaDe.setVisible(true);
     }//GEN-LAST:event_jMenuItemAcercaDeActionPerformed
+
+    private void jMenuItemPruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPruebaActionPerformed
+        panelPrueba.setVisible(true);
+    }//GEN-LAST:event_jMenuItemPruebaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,9 +309,50 @@ public class VistaGPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemLectorCConcreta;
     private javax.swing.JMenuItem jMenuItemLectorCGeneral;
     private javax.swing.JMenuItem jMenuItemMostrarPerfil;
+    private javax.swing.JMenuItem jMenuItemPrueba;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenu jMenuLector;
     private javax.swing.JMenu jMenuPrincipal;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void modelPropertyChange(PropertyChangeEvent evt) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void eventoRespuesta(Evento evento) {
+        switch (evento.getTipoEvento()) {
+            case SALIR:
+                System.out.println("Saliendo");
+                //System.exit(1);
+                break;
+            case LOGOUT:
+                System.err.println("Controlador->LOGOUT: No implementado.");
+                break;
+            case CONSULTA_CATALOGO_GENERAL:
+                Evento eventoAux = null;
+                System.out.println("CONSULTA_CATALOGO_GENERAL");
+                try {
+
+                    Catalogo catalogo = (Catalogo) evento.getInfo();
+                    vGCGeneral.muestraResultado(catalogo.getCatalogo().values());
+                    vGCGeneral.setVisible(true);
+
+                }catch (NullPointerException ex) {
+                    //Logger.getLogger(VistaGPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("ERROR: Catalogo vacio: evento:"+ex);
+                    //eventoAux = new Evento(TipoEvento.ERROR);
+                    ex.printStackTrace();
+
+                }
+                catch (Exception ex) {
+                    Logger.getLogger(VistaGPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    //System.err.println("ERROR");
+                    //eventoAux = new Evento(TipoEvento.ERROR);
+                }
+                break;
+        }
+    }
 }

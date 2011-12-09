@@ -10,15 +10,112 @@
  */
 package Vista;
 
+import HBM.Autor;
+import HBM.Titulo;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Vector;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 /**
  *
  * @author nanohp
  */
 public class VistaGCGeneral extends javax.swing.JInternalFrame {
+    
+    VistaGFichaTitulo vGFichaTitulo;
+    CatalogoTableModel catalogoTableModel;
 
     /** Creates new form VistaGCGeneral */
-    public VistaGCGeneral() {
+    public VistaGCGeneral(JDesktopPane jdpDesktop) {
+        vGFichaTitulo = new VistaGFichaTitulo();
+        jdpDesktop.add(vGFichaTitulo);
+        
         initComponents();
+        jButtonMostrarFicha.setVisible(false);
+    }
+    
+    public void muestraResultado(Collection filas) {
+        jTableCatalogo.setModel(new DefaultTableModel(obtenerFilas(filas), obtenerEncabezados()));
+        //catalogoTableModel = new CatalogoTableModel(obtenerFilas(filas), obtenerEncabezados());
+        //jTableCatalogo.setModel(catalogoTableModel);
+        
+        
+        setUpSportColumn(jTableCatalogo, jTableCatalogo.getColumnModel().getColumn(5));
+    }
+    
+    private Vector<String> obtenerEncabezados() {
+        Vector<String> tableHeaders = new Vector<String>();
+        tableHeaders.add("Código");
+        tableHeaders.add("F publicación");
+        tableHeaders.add("Edicion");
+        tableHeaders.add("Editorial");
+        tableHeaders.add("Idioma");
+        tableHeaders.add("Autor");
+        
+        return tableHeaders;
+    }
+    
+    private Vector obtenerFilas(Collection filas) {
+        
+        Vector tableData = new Vector();
+        TableColumn autorColum = null;
+        
+        
+        for (Object fila : filas) {
+            Titulo titulo = (Titulo) fila;
+            Vector<Object> oneRow = new Vector<Object>();
+            oneRow.add(titulo.getId().getDeweyCategoriaDewey() + "-" + titulo.getId().getIdApellido() + "-" + titulo.getId().getIdTitulo());
+            oneRow.add(titulo.getFechaPublicacion());
+            oneRow.add(titulo.getEdicion());
+            oneRow.add(titulo.getEditorial().getNombreEditorial());
+            oneRow.add(titulo.getIdioma6391().getIdioma6391());
+            Set autores = titulo.getAutors();
+            Iterator it = autores.iterator();
+            
+            
+            while (it.hasNext()) {
+                Autor autor = (Autor) it.next();
+                String autorStr = autor.getApellido1Autor() + " " + autor.getApellido2Autor() + " " + autor.getNombreAutor();
+                System.out.println("nombreAutor:" + autorStr);
+            }
+            
+            oneRow.add("....");
+            
+            //catalogoTableModel.addTitulo(titulo);
+            tableData.add(oneRow);
+            
+        }
+        
+        return tableData;
+    }
+    
+    public void setUpSportColumn(JTable table,
+            TableColumn sportColumn) {
+        //Set up the editor for the sport cells.
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Snowboarding");
+        comboBox.addItem("Rowing");
+        comboBox.addItem("Knitting");
+        comboBox.addItem("Speed reading");
+        comboBox.addItem("Pool");
+        comboBox.addItem("None of the above");
+        sportColumn.setCellEditor(new DefaultCellEditor(comboBox));
+
+        //Set up tool tips for the sport cells.
+        DefaultTableCellRenderer renderer =
+                new DefaultTableCellRenderer();
+        renderer.setToolTipText("Click for combo box");
+        sportColumn.setCellRenderer(renderer);
     }
 
     /** This method is called from within the constructor to
@@ -33,6 +130,7 @@ public class VistaGCGeneral extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableCatalogo = new javax.swing.JTable();
         jButtonAceptar = new javax.swing.JButton();
+        jButtonMostrarFicha = new javax.swing.JButton();
 
         jTableCatalogo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -45,9 +143,26 @@ public class VistaGCGeneral extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableCatalogo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableCatalogoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableCatalogo);
 
         jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
+
+        jButtonMostrarFicha.setText("Mostrar ficha");
+        jButtonMostrarFicha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMostrarFichaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -60,7 +175,9 @@ public class VistaGCGeneral extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(156, 156, 156)
-                        .addComponent(jButtonAceptar)))
+                        .addComponent(jButtonAceptar)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButtonMostrarFicha)))
                 .addContainerGap(118, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -68,15 +185,70 @@ public class VistaGCGeneral extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonAceptar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAceptar)
+                    .addComponent(jButtonMostrarFicha))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
+    
+    private void jTableCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableCatalogoMouseClicked
+        System.out.println("HOLLA" + evt);
+        
+        int pos = jTableCatalogo.getSelectedRow();
+        
+        boolean visible = pos > 0 ? true : false;
+        jButtonMostrarFicha.setVisible(visible);
+        
+        DefaultTableModel model = (DefaultTableModel) jTableCatalogo.getModel();
+        System.out.println(model.getDataVector().get(pos));
+        //String nombreTitulo = (String) ((Vector)model.getDataVector().get(pos)).get(2);
+        Titulo titulo = new Titulo();
+        titulo.setNombreTitulo("hola");
+        // vGFichaTitulo.setTitulo(titulo);
+
+        //vGFichaTitulo.setVisible(true);
+
+        
+        
+    }//GEN-LAST:event_jTableCatalogoMouseClicked
+    
+    private void jButtonMostrarFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarFichaActionPerformed
+        int filaSeleccionada = jTableCatalogo.getSelectedRow();
+        System.out.println(filaSeleccionada);
+        if (filaSeleccionada > 0) {
+            vGFichaTitulo.setTitulo(new Titulo());
+            vGFichaTitulo.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_jButtonMostrarFichaActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonMostrarFicha;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCatalogo;
     // End of variables declaration//GEN-END:variables
+}
+
+class CatalogoTableModel extends DefaultTableModel {
+    
+    private ArrayList<Titulo> titulos = new ArrayList<Titulo>();
+    
+    public CatalogoTableModel(Vector data, Vector columnNames) {
+        super(data, columnNames);
+    }
+    
+    public void addTitulo(Titulo titulo) {
+        titulos.add(titulo);
+    }
+    
+    public Titulo getTitulo(int pos) {
+        return titulos.get(pos);
+    }
 }

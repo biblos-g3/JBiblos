@@ -6,8 +6,10 @@ public class Usuario extends Persona {
     private String clave;
     private String email;
     private boolean isAdministrador;
-    
-    
+
+    public Usuario() {
+        super();
+    }
 
     /**
      * 
@@ -26,7 +28,8 @@ public class Usuario extends Persona {
      * @param apellido2
      */
     public Usuario(int dni, String nombre, String apellido1, String apellido2) {
-        super(nombre, apellido1);
+        super(nombre, apellido1, apellido2);
+        this.dni = dni;
     }
 
     public boolean isAdministrador() {
@@ -68,10 +71,4 @@ public class Usuario extends Persona {
     public void setClave(String clave) {
         this.clave = clave;
     }
-
-    public Usuario() {
-        super();
-    }
-    
-    
 }

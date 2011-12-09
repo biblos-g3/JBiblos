@@ -12,5 +12,10 @@
     <property name="hibernate.connection.tinyInt1isBit">true</property>
     <property name="hibernate.connection.transformedBitIsBoolean">true</property>
     <mapping resource="HBM/Persona.hbm.xml"/>
+    <mapping resource="HBM/Editorial.hbm.xml"/>
+    <mapping resource="HBM/Titulo.hbm.xml"/>
+    <mapping resource="HBM/Dewey.hbm.xml"/>
+    <mapping resource="HBM/Idioma6391.hbm.xml"/>
+    <mapping resource="HBM/Autor.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

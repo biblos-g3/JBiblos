@@ -10,25 +10,27 @@
  */
 package Vista;
 
-import Controlador.Controlador;
+import Controlador.Controlador2;
 import Controlador.Evento;
+import Controlador.Observador;
 import Controlador.TipoEvento;
 import Modelo.Login;
+import Modelo.Usuario;
+import java.beans.PropertyChangeEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author nanohp
  */
-public class VistaGLogin extends javax.swing.JFrame {
+public class VistaGLogin extends javax.swing.JFrame implements Observador {
 
-    private Controlador controlador;
+    private Controlador2 controlador;
+    private Observador padre;
 
     /** Creates new form VistaGLogin */
-    public VistaGLogin() {
-        initComponents();
-    }
-
-    public VistaGLogin(Controlador controlador) {
+    public VistaGLogin(Observador padre, Controlador2 controlador) {
+        this.padre = padre;
         this.controlador = controlador;
         initComponents();
     }
@@ -118,8 +120,8 @@ public class VistaGLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBotonLoginAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonLoginAceptarActionPerformed
-    Login login = new Login(jTFUsuario.getText().trim(), jTFClave.getText().trim());
-        controlador.gestionarEvento(new Evento(TipoEvento.LOGIN, login));
+        Login login = new Login(jTFUsuario.getText().trim(), jTFClave.getText().trim());
+        controlador.gestionarEvento(new Evento(TipoEvento.LOGIN, login, this));
     }//GEN-LAST:event_jBotonLoginAceptarActionPerformed
 
     private void jBotonLoginCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonLoginCancelarActionPerformed
@@ -157,7 +159,7 @@ public class VistaGLogin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new VistaGLogin().setVisible(true);
+                //new VistaGLogin().setVisible(true);
             }
         });
     }
@@ -169,4 +171,35 @@ public class VistaGLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField jTFClave;
     private javax.swing.JTextField jTFUsuario;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void modelPropertyChange(PropertyChangeEvent evt) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void eventoRespuesta(Evento evento) {
+        Object info = evento.getInfo();
+
+        switch (evento.getTipoEvento()) {
+
+            case LOGIN_OK:
+                if (info.getClass().getName().startsWith("Modelo.Usuario")) {
+                    setVisible(false);
+                    padre.eventoRespuesta(new Evento(TipoEvento.LOGIN_OK, info));
+                } else {
+                    assert false : info.getClass().getName() + " clase no valida";
+                }
+                break;
+            case LOGIN_FALLO:
+                JOptionPane.showMessageDialog(this,
+                        "Fallo en el usuario / clave.",
+                        "Error de acceso",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+            default:
+                throw new AssertionError();
+        }
+
+    }
 }

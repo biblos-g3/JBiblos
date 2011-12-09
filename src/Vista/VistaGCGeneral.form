@@ -28,6 +28,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
                       <Component id="jButtonAceptar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="jButtonMostrarFicha" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="118" max="32767" attributes="0"/>
@@ -39,7 +41,10 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jScrollPane1" min="-2" pref="221" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButtonAceptar" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonMostrarFicha" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="34" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -64,6 +69,9 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableCatalogoMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -71,6 +79,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Aceptar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAceptarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonMostrarFicha">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Mostrar ficha"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMostrarFichaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

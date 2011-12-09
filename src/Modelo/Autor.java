@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.util.*;
+import HBM.*;
 
 public class Autor extends Persona {
 

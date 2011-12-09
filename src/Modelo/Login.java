@@ -13,10 +13,9 @@ public class Login {
     String nombre;
     String clave;
 
-    public Login() {
-    }
 
     public Login(String nombre, String clave) {
+        super();
         this.nombre = nombre;
         this.clave = clave;
     }
