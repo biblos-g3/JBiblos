@@ -19,6 +19,7 @@ public class Biblioteca extends Observable {
     
     private Usuario usuarioActivo;
     private Catalogo alberga;
+    private GestorUsuarios gestorUsuarios;
     //private ListaUsuarios contiene;
     
     /*
@@ -43,6 +44,7 @@ public class Biblioteca extends Observable {
 
     public Biblioteca() {
         alberga = new Catalogo();
+        gestorUsuarios = new GestorUsuarios();
     }
 
 
@@ -149,6 +151,22 @@ public class Biblioteca extends Observable {
             System.err.println("ObjectNotFoundException");
         }
         return alberga;
+    }
+      public GestorUsuarios getUsuarios() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        try {
+            
+            gestorUsuarios.init(session.createQuery("from Usuario").list());
+            
+            session.getTransaction().commit();
+            //session.close();
+            
+
+        } catch (ObjectNotFoundException ex) {
+            System.err.println("ObjectNotFoundException");
+        }
+        return gestorUsuarios;
     }
 
     public List<Dewey> getCategoriasDewey() {

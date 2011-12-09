@@ -25,6 +25,7 @@ import HBM.Dewey;
 import HBM.Titulo;
 import Modelo.Biblioteca;
 import Modelo.Catalogo;
+import Modelo.GestorUsuarios;
 import Modelo.Usuario;
 import java.util.List;
 import java.util.logging.Level;
@@ -60,6 +61,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private VistaGFichaTitulo vGFichaTitulo;
     private VAcercaDe vAcercaDe;
     private List<Dewey> listaCategoriasDewey;
+    private VistaGListadoUsuarios listadoUsuarios;
 
     public VistaGPrincipal(GestorEventos padre, Controlador controlador, Usuario usuario) {
         this.padre = padre;
@@ -94,6 +96,9 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
 
         vAcercaDe = new VAcercaDe();
         jdpDesktop.add(vAcercaDe);
+
+        listadoUsuarios = new VistaGListadoUsuarios();
+        
 
         // Mostramos los menús en función del tipo de usuario activo
         if (usuario.isAdministrador()) {
@@ -136,6 +141,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         jMenuItemLectorCConcreta = new javax.swing.JMenuItem();
         jMenuAdministrador = new javax.swing.JMenu();
         jMenuUsuarios = new javax.swing.JMenu();
+        jMenuItemListadoUsuarios = new javax.swing.JMenuItem();
         jMenuItemUsuariosAlta = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemUsuariosModificar = new javax.swing.JMenuItem();
@@ -218,6 +224,14 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
 
         jMenuUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/User_group_20.png"))); // NOI18N
         jMenuUsuarios.setText("Usuarios");
+
+        jMenuItemListadoUsuarios.setText("Listado");
+        jMenuItemListadoUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemListadoUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuUsuarios.add(jMenuItemListadoUsuarios);
 
         jMenuItemUsuariosAlta.setText("Alta");
         jMenuItemUsuariosAlta.addActionListener(new java.awt.event.ActionListener() {
@@ -323,6 +337,12 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         vGPerfilUsuario.setVisible(true);
     }//GEN-LAST:event_jMenuItemUsuariosModificarActionPerformed
 
+    private void jMenuItemListadoUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListadoUsuariosActionPerformed
+        controlador.procesarEvento(new Evento(TipoEvento.LISTADO_USUARIOS, null, this));
+        //listadoUsuarios.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItemListadoUsuariosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -374,6 +394,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private javax.swing.JMenuItem jMenuItemAcercaDe;
     private javax.swing.JMenuItem jMenuItemLectorCConcreta;
     private javax.swing.JMenuItem jMenuItemLectorCGeneral;
+    private javax.swing.JMenuItem jMenuItemListadoUsuarios;
     private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemMostrarPerfil;
     private javax.swing.JMenuItem jMenuItemSalir;
@@ -470,6 +491,27 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
                 } catch (NullPointerException ex) {
                     //Logger.getLogger(VistaGPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     System.err.println("ERROR: Catalogo vacio: evento:" + ex);
+                    //eventoAux = new Evento(TipoEvento.ERROR);
+                    ex.printStackTrace();
+
+                } catch (Exception ex) {
+                    Logger.getLogger(VistaGPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    //System.err.println("ERROR");
+                    //eventoAux = new Evento(TipoEvento.ERROR);
+                }
+                break;
+                case LISTADO_USUARIOS:
+                System.out.println("LISTADO_USUARIOS");
+                try {
+
+                    GestorUsuarios gestorUsuarios = (GestorUsuarios) evento.getInfo();
+                    listadoUsuarios.fijarModelo(gestorUsuarios);
+                    listadoUsuarios.setEditable(false);
+                    listadoUsuarios.setVisible(true);
+
+                } catch (NullPointerException ex) {
+                    //Logger.getLogger(VistaGPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("ERROR: Listado de Usuario: evento:" + ex);
                     //eventoAux = new Evento(TipoEvento.ERROR);
                     ex.printStackTrace();
 

@@ -40,7 +40,7 @@ public class VistaGPerfilUsuario extends javax.swing.JInternalFrame implements G
         } else if (modo.equals("modificar")) {
             setEditable(true);
             setTitle("Modificación de usuario");
-            this.jTextFieldDNI.setEditable(fa2lse);
+            this.jTextFieldDNI.setEditable(false);
         }
     }
 

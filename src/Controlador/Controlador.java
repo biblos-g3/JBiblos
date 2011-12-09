@@ -9,6 +9,7 @@ import HBM.TituloId;
 import Modelo.Biblioteca;
 import Modelo.Catalogo;
 import Modelo.CodDewey;
+import Modelo.GestorUsuarios;
 import Modelo.Login;
 import Modelo.Usuario;
 import java.beans.PropertyChangeEvent;
@@ -93,6 +94,22 @@ public class Controlador extends AbstractController implements GestorEventos {
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                     System.err.println("CONSULTA_CATALOGO_CONCRETA: ERROR");
+                    eventoAux = new Evento(TipoEvento.ERROR);
+                }
+                evento.getDestinoRespueta().procesarEvento(eventoAux);
+                break;
+               
+                case LISTADO_USUARIOS:
+
+                System.out.println("Listado de usuarios");
+                try {
+
+                    GestorUsuarios gestorUsuarios = biblioteca.getUsuarios();
+                    eventoAux = new Evento(TipoEvento.LISTADO_USUARIOS, gestorUsuarios);
+
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("LISTADO_USUARIOS: ERROR");
                     eventoAux = new Evento(TipoEvento.ERROR);
                 }
                 evento.getDestinoRespueta().procesarEvento(eventoAux);

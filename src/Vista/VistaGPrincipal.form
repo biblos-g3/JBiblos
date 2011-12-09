@@ -116,6 +116,14 @@
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
               </Properties>
               <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemListadoUsuarios">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Listado"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemListadoUsuariosActionPerformed"/>
+                  </Events>
+                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItemUsuariosAlta">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Alta"/>
