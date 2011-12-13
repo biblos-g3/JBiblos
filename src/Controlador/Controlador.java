@@ -29,7 +29,7 @@ public class Controlador extends AbstractController implements GestorEventos {
     }
 
     public void procesarEvento(Evento evento) {
-        Evento eventoAux = null;
+        Evento eventoRespuesta = null;
 
         switch (evento.getTipoEvento()) {
             case SALIR:
@@ -47,13 +47,13 @@ public class Controlador extends AbstractController implements GestorEventos {
                         usuario = biblioteca.login(login.getNombre(), login.getClave());
                         ((Usuario) usuario).setLookAndFeel(login.getLookAndFeel());
                         //System.out.println("---"+usuario.getClass().getSimpleName()+"-");
-                        eventoAux = new Evento(TipoEvento.LOGIN_OK, usuario);
+                        eventoRespuesta = new Evento(TipoEvento.LOGIN_OK, usuario);
                     } catch (Exception ex) {
                         //Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                         System.err.println("ERROR");
-                        eventoAux = new Evento(TipoEvento.LOGIN_FALLO);
+                        eventoRespuesta = new Evento(TipoEvento.LOGIN_FALLO);
                     }
-                    evento.getDestinoRespueta().procesarEvento(eventoAux);
+                    evento.getDestinoRespueta().procesarEvento(eventoRespuesta);
                 }
 
                 break;
@@ -70,14 +70,14 @@ public class Controlador extends AbstractController implements GestorEventos {
                 try {
 
                     Catalogo catalogo = biblioteca.getAlberga();
-                    eventoAux = new Evento(TipoEvento.CONSULTA_CATALOGO_GENERAL, catalogo);
+                    eventoRespuesta = new Evento(TipoEvento.CONSULTA_CATALOGO_GENERAL, catalogo);
 
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                     System.err.println("CONSULTA_CATALOGO_GENERAL: ERROR");
-                    eventoAux = new Evento(TipoEvento.ERROR);
+                    eventoRespuesta = new Evento(TipoEvento.ERROR);
                 }
-                evento.getDestinoRespueta().procesarEvento(eventoAux);
+                evento.getDestinoRespueta().procesarEvento(eventoRespuesta);
                 break;
             case CONSULTA_CATALOGO_CONCRETA:
                 System.out.println("CONSULTA_CATALOGO_CONCRETA" + evento.getInfo().getClass().getName());
@@ -89,14 +89,14 @@ public class Controlador extends AbstractController implements GestorEventos {
                     TituloId tituloId = (TituloId) evento.getInfo();
 
                     Titulo titulo = biblioteca.getAlberga().getCatalogo().get(tituloId);
-                    eventoAux = new Evento(TipoEvento.CONSULTA_CATALOGO_CONCRETA, titulo);
+                    eventoRespuesta = new Evento(TipoEvento.CONSULTA_CATALOGO_CONCRETA, titulo);
 
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                     System.err.println("CONSULTA_CATALOGO_CONCRETA: ERROR");
-                    eventoAux = new Evento(TipoEvento.ERROR);
+                    eventoRespuesta = new Evento(TipoEvento.ERROR);
                 }
-                evento.getDestinoRespueta().procesarEvento(eventoAux);
+                evento.getDestinoRespueta().procesarEvento(eventoRespuesta);
                 break;
                
                 case LISTADO_USUARIOS:
@@ -105,14 +105,14 @@ public class Controlador extends AbstractController implements GestorEventos {
                 try {
 
                     GestorUsuarios gestorUsuarios = biblioteca.getUsuarios();
-                    eventoAux = new Evento(TipoEvento.LISTADO_USUARIOS, gestorUsuarios);
+                    eventoRespuesta = new Evento(TipoEvento.LISTADO_USUARIOS, gestorUsuarios);
 
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                     System.err.println("LISTADO_USUARIOS: ERROR");
-                    eventoAux = new Evento(TipoEvento.ERROR);
+                    eventoRespuesta = new Evento(TipoEvento.ERROR);
                 }
-                evento.getDestinoRespueta().procesarEvento(eventoAux);
+                evento.getDestinoRespueta().procesarEvento(eventoRespuesta);
                 break;
         }
 

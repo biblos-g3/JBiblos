@@ -61,7 +61,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private VistaGFichaTitulo vGFichaTitulo;
     private VAcercaDe vAcercaDe;
     private List<Dewey> listaCategoriasDewey;
-    private VistaGListadoUsuarios listadoUsuarios;
+    private VistaGListadoUsuarios vistaGListadoUsuarios;
 
     public VistaGPrincipal(GestorEventos padre, Controlador controlador, Usuario usuario) {
         this.padre = padre;
@@ -97,7 +97,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         vAcercaDe = new VAcercaDe();
         jdpDesktop.add(vAcercaDe);
 
-        listadoUsuarios = new VistaGListadoUsuarios();
+        vistaGListadoUsuarios = new VistaGListadoUsuarios();
         
 
         // Mostramos los menús en función del tipo de usuario activo
@@ -338,7 +338,8 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     }//GEN-LAST:event_jMenuItemUsuariosModificarActionPerformed
 
     private void jMenuItemListadoUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListadoUsuariosActionPerformed
-        controlador.procesarEvento(new Evento(TipoEvento.LISTADO_USUARIOS, null, this));
+        Evento evListadoUsuarios = new Evento(TipoEvento.LISTADO_USUARIOS, null, this);
+        controlador.procesarEvento(evListadoUsuarios);
         //listadoUsuarios.setVisible(true);
 
     }//GEN-LAST:event_jMenuItemListadoUsuariosActionPerformed
@@ -505,9 +506,9 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
                 try {
 
                     GestorUsuarios gestorUsuarios = (GestorUsuarios) evento.getInfo();
-                    listadoUsuarios.fijarModelo(gestorUsuarios);
-                    listadoUsuarios.setEditable(false);
-                    listadoUsuarios.setVisible(true);
+                    vistaGListadoUsuarios.fijarModelo(gestorUsuarios);
+                    vistaGListadoUsuarios.setEditable(false);
+                    vistaGListadoUsuarios.setVisible(true);
 
                 } catch (NullPointerException ex) {
                     //Logger.getLogger(VistaGPrincipal.class.getName()).log(Level.SEVERE, null, ex);
