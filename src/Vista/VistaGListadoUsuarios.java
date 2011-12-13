@@ -263,3 +263,4 @@ public class VistaGListadoUsuarios extends javax.swing.JFrame implements Gestion
             this.editable = editable;
         }
     }
+}

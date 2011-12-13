@@ -165,6 +165,7 @@ public class Biblioteca extends Observable {
 
         } catch (ObjectNotFoundException ex) {
             System.err.println("ObjectNotFoundException");
+            throw ex;
         }
         return gestorUsuarios;
     }

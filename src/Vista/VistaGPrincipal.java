@@ -62,8 +62,9 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
     private VAcercaDe vAcercaDe;
     private List<Dewey> listaCategoriasDewey;
     private VistaGListadoUsuarios vistaGListadoUsuarios;
+//1
 
-    public VistaGPrincipal(GestorEventos padre, Controlador controlador, Usuario usuario) {
+    public VistaGPrincipal(GestorEventos padre, Controlador controlador, Usuario usuario) {//1
         this.padre = padre;
         this.controlador = controlador;
         this.usuario = usuario;
@@ -98,7 +99,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
         jdpDesktop.add(vAcercaDe);
 
         vistaGListadoUsuarios = new VistaGListadoUsuarios();
-        
+
 
         // Mostramos los menús en función del tipo de usuario activo
         if (usuario.isAdministrador()) {
@@ -501,7 +502,7 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
                     //eventoAux = new Evento(TipoEvento.ERROR);
                 }
                 break;
-                case LISTADO_USUARIOS:
+            case LISTADO_USUARIOS:
                 System.out.println("LISTADO_USUARIOS");
                 try {
 
@@ -522,6 +523,14 @@ public class VistaGPrincipal extends javax.swing.JFrame implements GestorEventos
                     //eventoAux = new Evento(TipoEvento.ERROR);
                 }
                 break;
+
+            case LISTADO_USUARIOS_ERROR:
+                 JOptionPane.showMessageDialog(this,
+                        "Error en la peticion de lista de usuarios",
+                        "Error en listado usuarios",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+
 
         }
     }

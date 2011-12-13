@@ -30,6 +30,8 @@ public class Controlador extends AbstractController implements GestorEventos {
 
     public void procesarEvento(Evento evento) {
         Evento eventoRespuesta = null;
+        
+       
 
         switch (evento.getTipoEvento()) {
             case SALIR:
@@ -110,7 +112,7 @@ public class Controlador extends AbstractController implements GestorEventos {
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
                     System.err.println("LISTADO_USUARIOS: ERROR");
-                    eventoRespuesta = new Evento(TipoEvento.ERROR);
+                    eventoRespuesta = new Evento(TipoEvento.LISTADO_USUARIOS_ERROR);
                 }
                 evento.getDestinoRespueta().procesarEvento(eventoRespuesta);
                 break;

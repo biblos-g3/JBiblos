@@ -8,6 +8,7 @@ package Controlador;
  *
  * @author nanohp
  */
+//2 lista de valores posibles.
 public enum TipoEvento {
 
     FIJAR_LYL("Fijar Look And Feel"),
@@ -20,7 +21,8 @@ public enum TipoEvento {
     LOGOUT("Logout"),
     CONSULTA_CATALOGO_GENERAL("Consulta catálogo general"),
     CONSULTA_CATALOGO_CONCRETA("Consulta catálogo concreta"),
-    LISTADO_USUARIOS ("Listado de usuarios");
+    /*2 */ LISTADO_USUARIOS("Listado de usuarios"),
+    LISTADO_USUARIOS_ERROR("Listado de usuarios");
     private String tipoEvento;
 
     private TipoEvento(String tipoEvento) {
